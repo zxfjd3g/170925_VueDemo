@@ -1,54 +1,56 @@
 <template>
-  <div>
-    <header class="site-header jumbotron">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <h1>请发表对React的评论</h1>
-          </div>
-        </div>
-      </div>
-    </header>
-    <div class="container">
-      <Add :addComment="addComment"/>
-      <List :comments="comments" :deleteComment="deleteComment"/>
+  <div class="todo-container">
+    <div class="todo-wrap">
+      <TodoHeader :addTodo="addTodo"/>
+      <TodoMain :todos="todos" :deleteTodo="deleteTodo"/>
+      <TodoFooter/>
     </div>
   </div>
 </template>
 
 <script>
-  import Add from './components/Add.vue'
-  import List from './components/List.vue'
+  import Header from './components/Header.vue'
+  import Main from './components/Main.vue'
+  import Footer from './components/Footer.vue'
 
   export default {
-
     data () {
       return {
-        comments: [
-          {name: '张三', content: 'Vue So easy!'},
-          {name: '李四', content: 'Vue so hard!'},
-          {name: '老王', content: 'Vue so so!'},
+        todos: [
+          {title: '吃饭', completed: false},
+          {title: '睡觉', completed: true},
+          {title: '打代码', completed: false}
         ]
       }
     },
 
     methods: {
-      addComment (comment) {
-        this.comments.unshift(comment)
+      // 添加todo
+      addTodo (todo) {
+        this.todos.unshift(todo)
       },
-
-      deleteComment (index) {
-        this.comments.splice(index, 1)
+      // 删除todo
+      deleteTodo (index) {
+        this.todos.splice(index, 1)
       }
     },
 
     components: {
-      Add,
-      List
+      TodoHeader: Header,
+      TodoMain: Main,
+      TodoFooter: Footer
     }
   }
 </script>
 
 <style>
-
+  .todo-container {
+    width: 600px;
+    margin: 0 auto;
+  }
+  .todo-container .todo-wrap {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
 </style>

@@ -1,58 +1,49 @@
 <template>
-  <li class="list-group-item">
-    <div class="handle">
-      <a href="javascript:;" @click="deleteItem">删除</a>
-    </div>
-    <p class="user"><span >{{comment.name}}</span><span>说:</span></p>
-    <p class="centence">{{comment.content}}</p>
+  <li :style="{background: bgColor}"
+      @mouseenter="handleEnter(true)" @mouseleave="handleEnter(false)">
+    <label>
+      <input type="checkbox" v-model="todo.completed"/>
+      <span>{{todo.title}}</span>
+    </label>
+    <button class="btn btn-danger" v-show="isShow" @click="deleteItem">删除</button>
   </li>
 </template>
 
 <script>
   export default {
     props: {
-      comment: Object,
-      deleteComment: Function,
-      index: Number
+      todo: Object,
+      index: Number,
+      deleteTodo: Function
+    },
+    data () {
+      return {
+        bgColor: 'white',
+        isShow: false
+      }
     },
 
     methods: {
+      handleEnter(isEnter) {
+        if(isEnter) { // 进入
+          this.bgColor = '#dddddd'
+          this.isShow = true
+        } else {// 离开
+          this.bgColor = 'white'
+          this.isShow = false
+        }
+      },
+
       deleteItem () {
-        const {comment, deleteComment, index} = this
-        if(window.confirm(`确定删除${comment.name}的评论吗?`)) {
-          deleteComment(index)
+        const {todo, index, deleteTodo} = this
+        if(window.confirm(`确定删除${todo.title}吗?`)) {
+          deleteTodo(index)
         }
       }
     }
   }
 </script>
 
-<style scoped>
-  li {
-    transition: .5s;
-    overflow: hidden;
-  }
+<style>
 
-  .handle {
-    width: 40px;
-    border: 1px solid #ccc;
-    background: #fff;
-    position: absolute;
-    right: 10px;
-    top: 1px;
-    text-align: center;
-  }
-
-  .handle a {
-    display: block;
-    text-decoration: none;
-  }
-
-  .list-group-item .centence {
-    padding: 0px 50px;
-  }
-
-  .user {
-    font-size: 22px;
-  }
 </style>
