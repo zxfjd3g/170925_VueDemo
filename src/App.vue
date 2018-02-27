@@ -12,12 +12,13 @@
   import Header from './components/Header.vue'
   import Main from './components/Main.vue'
   import Footer from './components/Footer.vue'
+  import storageUtil from './utils/stotageUtil'
 
   export default {
     data () {
       return {
         // 从localStorage中读取保存todos数据
-        todos: JSON.parse(window.localStorage.getItem('todos_key') || '[]')
+        todos: storageUtil.readTodos()
       }
     },
 
@@ -44,10 +45,12 @@
     watch: {
       todos: {
         deep: true, //深度监视
-        handler: function (newValue) { // 最新的todos
+        /*handler: function (newValue) { // 最新的todos
           // 将todos保存localStorage (todos的JSON数据)
-          window.localStorage.setItem('todos_key', JSON.stringify(newValue))
-        }
+          // window.localStorage.setItem('todos_key', JSON.stringify(newValue))
+          storageUtil.saveTodos(newValue)
+        }*/
+        handler: storageUtil.saveTodos
       }
     },
 

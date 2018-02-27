@@ -23,8 +23,14 @@
         </template>
         <script>
             export default {
+			  props: []/{}
               data(){},
-              methods: {}
+              methods: {},
+			  computed: {}
+			  watch: {}
+			  filters: {}
+			  directives: {}
+			  components: {}
             }
         </script>
         <style>
@@ -46,4 +52,6 @@
         属性值的2大类型: 
             一般: 父组件-->子组件
             函数: 子组件-->父组件
+		隔层组件间传递: 必须逐层传递(麻烦)
+		兄弟组件间: 必须借助父组件(麻烦)
         
