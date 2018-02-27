@@ -1,72 +1,83 @@
 <template>
-  <ul class="todo-main">
-    <Item v-for="(todo, index) in todos" :key="index"
-          :todo="todo" :index="index"/>
-  </ul>
+  <div>
+    <h2 v-if="firstView">请输入关键字搜索</h2>
+
+    <h2 v-if="loading">LOADING...</h2>
+
+    <h2 v-if="errorMsg">{{errorMsg}}</h2>
+
+    <div class="row">
+      <div class="card" v-for="(user, index) in users" :key="index">
+        <a :href="user.url" target="_blank">
+          <img :src="user.avatar" style='width: 100px'/>
+        </a>
+        <p class="card-text">{{user.name}}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-  import Item from './Item.vue'
+  import PubSub from 'pubsub-js'
+  import axios from 'axios'
 
   export default {
-    props: {
-      todos: Array,
+    data () {
+      return {
+        firstView: true,
+        loading: false,
+        errorMsg: '',
+        users: []
+      }
     },
 
-    components: {
-      Item
+    mounted () {
+      // 订阅消息(search)
+      PubSub.subscribe('search', (message, searchName) => { // 需要发送新的ajax请求
+        // 请求之前, 更新状态
+        this.firstView = false
+        this.loading = true
+        this.users = []
+        this.errorMsg = ''
+        // 发请求
+        const url = `https://api.github.com/search/users?q=${searchName}`
+        axios.get(url)
+          .then(response => {
+            // 请求返回(成功)
+            const result = response.data
+            this.loading = false
+            this.users = result.items.map(item => ({
+              url: item.html_url,
+              avatar: item.avatar_url,
+              name: item.login
+            }))
+          })
+          .catch(error => {
+            // 请求返回(失败)
+            this.loading = false
+            this.errorMsg = '请求失败!'
+          })
+      })
     }
   }
 </script>
 
 <style>
-  .todo-main {
-    margin-left: 0px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    padding: 0px;
-  }
-
-  .todo-empty {
-    height: 40px;
-    line-height: 40px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    padding-left: 5px;
-    margin-top: 10px;
-  }
-  /*item*/
-  li {
-    list-style: none;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 5px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  li label {
+  .card {
     float: left;
-    cursor: pointer;
+    width: 33.333%;
+    padding: .75rem;
+    margin-bottom: 2rem;
+    border: 1px solid #efefef;
+    text-align: center;
   }
 
-  li label li input {
-    vertical-align: middle;
-    margin-right: 6px;
-    position: relative;
-    top: -1px;
+  .card > img {
+    margin-bottom: .75rem;
+    border-radius: 100px;
   }
 
-  li button {
-    float: right;
-    display: none;
-    margin-top: 3px;
-  }
-
-  li:before {
-    content: initial;
-  }
-
-  li:last-child {
-    border-bottom: none;
+  .card-text {
+    font-size: 85%;
   }
 </style>

@@ -12,8 +12,10 @@
     "client": "serve dist"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "pubsub-js": "^1.6.0",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-resource": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
