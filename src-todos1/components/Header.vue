@@ -7,9 +7,9 @@
 
 <script>
   export default {
-    /*props: {
+    props: {
       addTodo: Function
-    },*/
+    },
 
     data () {
       return {
@@ -28,9 +28,7 @@
         // 根据输入封装一个todo对象
         const todo = {title: inputTodo, completed: false}
         // 添加todo
-        // this.addTodo(todo)
-        // 触发自定义事件(addTodo)
-        this.$emit('addTodo', todo)  // 事件名和数据
+        this.addTodo(todo)
         //清除输入
         this.inputTodo = ''
       }
