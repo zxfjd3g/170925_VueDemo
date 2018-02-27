@@ -18,7 +18,9 @@
         <div class="panel">
           <div class="panel-body">
             <!--路由视图: router-view 显示当前路由组件-->
-            <router-view msg="abc"></router-view>
+            <keep-alive><!--让路由组件对象在被切换还保存在内存中-->
+              <router-view msg="abc"></router-view>
+            </keep-alive>
           </div>
         </div>
       </div>

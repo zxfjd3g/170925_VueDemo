@@ -2,6 +2,7 @@
   <div>
     <h2>About route Component</h2>
     <p>{{msg}}</p>
+    <input type="text">
   </div>
 </template>
 
