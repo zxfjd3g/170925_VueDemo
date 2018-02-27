@@ -18,7 +18,7 @@
         <div class="panel">
           <div class="panel-body">
             <!--路由视图: router-view 显示当前路由组件-->
-            <router-view></router-view>
+            <router-view msg="abc"></router-view>
           </div>
         </div>
       </div>
