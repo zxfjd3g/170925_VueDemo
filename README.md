@@ -124,13 +124,13 @@
            	<router-link to="/xxx">Go to XXX</router-link>
            	<router-view></router-view>
     编写路由的3步
-        1. 定义路由组件
+        1. 定义路由组件    
         2. 映射路由
         3. 编写路由2个标签
     嵌套路由
         children: [
             {
-              path: 'news',
+              path: '/home/news',
               component: news
             },
             {
@@ -139,8 +139,8 @@
             }
          ]
     向路由组件传递数据
-        params
-        props
+        params: <router-link to="/home/news/abc/123">
+        props: <router-view msg='abc'>
     缓存路由组件
         <keep-alive>
           <router-view></router-view>
